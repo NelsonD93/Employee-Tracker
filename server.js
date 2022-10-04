@@ -2,8 +2,7 @@ import connection from './config/connections.js'
 import inquirer from 'inquirer'
 import 'console.table'
 
-const dbArray = [];
-
+// Initialize function to ask which process the user would like to use
 function choices() {
     inquirer.prompt([
         {
@@ -14,9 +13,9 @@ function choices() {
                 'View all employees',
                 'View all departments',
                 'View all roles',
-                'Add an employee',
                 'Add a department',
                 'Add a role',
+                'Add an employee',
                 'Update employee role',
                 'EXIT'
             ],
@@ -52,6 +51,7 @@ function choices() {
     })
 }
 
+// Function to view a table of all existing employees
 function viewEmployees() {
     var query = 'SELECT * FROM employee';
     connection.query(query, function (err, res) {
@@ -61,6 +61,7 @@ function viewEmployees() {
         choices();
     })
 };
+// Function to view a table of all existing departments
 function viewDepartments() {
     const query = 'SELECT * FROM department';
     connection.query(query, (err, res) => {
@@ -69,7 +70,7 @@ function viewDepartments() {
         choices()
     })
 }
-
+// Function to view a table of all existing roles
 function viewRoles() {
     const query = 'SELECT * FROM roles'
     connection.query(query, (err, res) => {
@@ -78,7 +79,7 @@ function viewRoles() {
         choices()
     })
 }
-
+// function to add department
 function addDepartments() {
     inquirer.prompt([
         {
@@ -95,7 +96,7 @@ function addDepartments() {
         })
     })
 }
-
+// Adds a role to any existing department
 function addRoles() {
     connection.query('SELECT * FROM department;', (err, res) => {
 
@@ -131,7 +132,7 @@ function addRoles() {
         })
     })
 }
-
+// Adds an employee to existing role and manager
 function addEmployee() {
     connection.query('SELECT * FROM roles;', (err, res1) => {
         connection.query('SELECT * FROM employee;', (err, res2) => {
@@ -206,10 +207,10 @@ function updateEmployee() {
                         }
                     })
                 },
-                
+
             ]).then((answers) => {
                 var query = 'UPDATE employee SET role_id=(?) WHERE employee_id=(?)'
-                connection.query(query, [answers.roleID,answers.employeeID], (err, res) => {
+                connection.query(query, [answers.roleID, answers.employeeID], (err, res) => {
                     if (err) throw err
                     console.log('Updated employee role', res)
                     choices()
