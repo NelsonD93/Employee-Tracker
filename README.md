@@ -25,3 +25,5 @@ first_name,
 last_name,
 role_id,
 manager_id
+
+[Video Walkthrough](https://github.com/NelsonD93/Employee-Tracker)
